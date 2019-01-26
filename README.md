@@ -1,0 +1,1 @@
+Xen Orchestra Community Edition, ready to deploy. No SSL. Redis inside.
