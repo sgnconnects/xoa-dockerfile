@@ -6,7 +6,7 @@
 
 # [INFO] Default user: "admin@admin.net" with password "admin"
 
-# de el debian con node 8
+# del debian con node 8
 FROM node:8-jessie
 
 # instala las dependencias
@@ -15,6 +15,8 @@ RUN apt-get install -y build-essential redis-server libpng-dev git python-minima
 
 # limpia la porquería
 RUN apt-get autoremove -qq && apt-get clean && rm -rf /usr/share/doc /usr/share/man /var/log/* /tmp/*
+
+# crea el directorio donde loguea redis
 RUN mkdir /var/log/redis/
 RUN chmod a+wrx -R /var/log/redis
 
@@ -29,7 +31,7 @@ COPY xo-server.toml xen-orchestra/packages/xo-server/.xo-server.toml
 
 # los puertos
 EXPOSE 80
-EXPOSE 43
+EXPOSE 443
 
 # arranca!
 WORKDIR /xen-orchestra/packages/xo-server/
