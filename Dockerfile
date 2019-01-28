@@ -33,6 +33,10 @@ COPY xo-server.toml xen-orchestra/packages/xo-server/.xo-server.toml
 EXPOSE 80
 EXPOSE 443
 
+
+# exporta los datos de xo-server pa que se salven
+VOLUME ["/var/lib/xo-server/data"]
+
 # arranca!
 WORKDIR /xen-orchestra/packages/xo-server/
 ENTRYPOINT ["/bin/bash", "-c"]
