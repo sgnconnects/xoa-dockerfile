@@ -1,7 +1,3 @@
-#  scp ~/source/dockerfiles/xoa/* root@10.8.0.1:/root/xoa/; ssh root@10.8.0.1 'cd ~/xoa; docker build -t xoacomm:latest ./'
-
-# root@10.8.0.1 'docker run -i -t xoacomm:latest /bin/bash'
-
 # https://xen-orchestra.com/docs/from_the_sources.html
 
 # [INFO] Default user: "admin@admin.net" with password "admin"
@@ -26,7 +22,7 @@ RUN cd xen-orchestra && yarn && yarn build
 
 # TODO, esto no está probado
 # eliminar las herramientas de compilación, pesan con cojone
-RUN apt-get remove -y build-essential
+RUN apt-get purge -y --auto-remove build-essential make gcc
 
 # limpia la porquería
 RUN apt-get autoremove -qq && apt-get clean
