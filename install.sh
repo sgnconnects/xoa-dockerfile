@@ -1,9 +1,5 @@
 #!/bin/sh
 
-echo $0
-
-exit 0
-
 # instala todo
 apt-get update
 apt-get install -y build-essential redis-server libpng-dev git python-minimal lvm2 
