@@ -5,9 +5,6 @@
 # el nodejs versión 8 con debian jessie
 FROM node:8-jessie
 
-# quién soy
-LABEL Description="Xen Orchestra in Docker" Vendor="ChipojoSoft" Version="0.5"
-
 # ejecuta el script que instala todo
 COPY install.sh /opt/
 RUN /bin/sh /opt/install.sh && rm /opt/install.sh
