@@ -5,21 +5,27 @@
 # el nodejs versión 8 con debian jessie
 FROM node:8-jessie
 
-# ejecuta el script que instala todo
-COPY install.sh /opt/
-RUN /bin/sh /opt/install.sh && rm /opt/install.sh
+# instala XOA
+RUN apt-get update && \
+    apt-get install -y build-essential redis-server libpng-dev git python-minimal lvm2  && \
+    git clone -b master http://github.com/vatesfr/xen-orchestra && \
+    cd xen-orchestra && yarn && yarn build && \
+    apt-get purge -y --auto-remove build-essential make gcc && \
+    apt-get autoremove -qq && apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man /var/log/* /tmp/* /var/cache/apt/archives/* && \
+    mkdir /var/log/redis/ && chmod a+wrx -R /var/log/redis 
 
 # mete el xo-server.toml en el directorio del xoa
-# el fichero no puede llamarse .xo-server.toml localmente, porque docker se marea con la ruta
 COPY xo-server.toml xen-orchestra/packages/xo-server/.xo-server.toml
 
-# abre el 80
+# servidor web
 EXPOSE 80
 
-# exporta los datos de xo-server pa que se salven
-VOLUME /var/lib/xo-server/data
+# los datos del xoa se pueden salvar afuera
+# quizás quiera usar un xo-server.toml personalizado así que pa afuera también
+VOLUME ["/var/lib/xo-server/data","/opt/xen-orchestra/packages/xo-server/.xo-server.toml"]
 
 # arranca!
-WORKDIR /xen-orchestra/packages/xo-server/
+WORKDIR /opt/xen-orchestra/packages/xo-server/
 ENTRYPOINT ["/bin/bash", "-c"]
 CMD ["service redis-server start && yarn start"]
