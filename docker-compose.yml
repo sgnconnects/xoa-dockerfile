@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+
+  # Xen Orchestra
+  xoa:
+    restart: always
+    image: xoacomm
+    volumes:
+      - /opt/xo:/var/lib/xo-server/data
+    expose:
+      - "80" 
+    environment:
+      - VIRTUAL_HOST=xoa.tudominio.cu
+
+
+  # El servidor web, con su debido proxy inverso
+  nginx-proxy:
+      restart: always
+      image: jwilder/nginx-proxy
+      ports:
+        - "80:80" # 80 pa afuera
+      volumes:
+        - /var/run/docker.sock:/tmp/docker.sock:ro
+
+# EOF
